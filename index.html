@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chia Táo</title>
+  </head>
+  <body>
+    <script>
+      const splitApples = (n, apples) => {
+
+        // Kiểm tra số phần tử trong mảng apples có khớp với n hay không
+        if (apples.length !== n) {
+          return "Số lượng quả không khớp với giá trị n";
+        }
+
+        // Kiểm tra các phần tử trong mảng có phải là 100 hoặc 200 hay không
+        if (!apples.every((weight) => weight === 100 || weight === 200)) {
+          return "Dữ liệu đầu vào không hợp lệ, dữ liệu truyền vào mảng chỉ có thể là 100 hoặc 200";
+        }
+
+        //Tính tổng trọng lượng số táo
+        const sum = apples.reduce((a, b) => a + b, 0);
+
+        //Nếu tổng số lượng không đủ để chia đều thì trả về "No"
+        if (sum % 2 !== 0) return "NO";
+
+        const half = sum / 2;
+        const dp = Array(half + 1).fill(false);
+        dp[0] = true;
+
+        //Duyệt qua từng quả táo và cập nhật "dp"
+        for (let i = 0; i < n; i++) {
+          for (let j = half; j >= apples[i]; j--) {
+            dp[j] = dp[j] || dp[j - apples[i]];
+          }
+        }
+
+        return dp[half] ? "YES" : "NO";
+      };
+
+      // Nhập giá trị đầu vào
+      const n = 4;
+      const apples = [100, 200, 200, 100];
+      console.log(splitApples(n, apples));
+    </script>
+  </body>
+</html>
